@@ -1,21 +1,21 @@
-from flask import *
-import bs4 as bs
-import requests
-import urllib
+from flask import * #importing flask library
+import bs4 as bs #importing beautifulsoup4 library
+import requests #importing requests library
+import urllib #importing urllib library
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    form = Markup(get_page())
+    form = Markup(get_page()) #creating temporary markup
     return render_template('index.html', form = form)
 
 @app.route('/<string:data>')
 def query(data):
-    data = request.query_string
+    data = request.query_string #extracting data using request
     if str(data)[2:4] == 'ie':
         results = get_query(data)
         form = get_page()
-        data = [results[0], Markup(form), Markup(results[1][0])]
+        data = [results[0], Markup(form), Markup(results[1][0])] #cleansing the data
         return render_template('result.html', data = data)
     elif str(data)[2:3]:
         return get_site(data)
